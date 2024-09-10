@@ -11,7 +11,7 @@
 #!/bin/bash
 export PGPASSWORD='postgres1'
 BASEDIR=$(dirname "$0")
-DATABASE=final_capstone
+DATABASE=mbr_tracker
 
 echo "Running dropdb.sql..."
 psql -U postgres -f "$BASEDIR/dropdb.sql" || { echo 'Failed to run dropdb.sql'; exit 1; }
@@ -28,5 +28,7 @@ psql -U postgres -d $DATABASE -f "$BASEDIR/data.sql" || { echo 'Failed to run da
 echo "Running user.sql..."
 psql -U postgres -d $DATABASE -f "$BASEDIR/user.sql" || { echo 'Failed to run user.sql'; exit 1; }
 
+
 echo "Script completed successfully."
+
 
