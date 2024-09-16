@@ -81,7 +81,7 @@ public class JdbcMbrDao implements MbrDao {
                 // Assuming date_created is in the third column as a date value
                 LocalDate dateCreated = row.getCell(2).getLocalDateTimeCellValue().toLocalDate();
 
-                System.out.println("Product: " + productName + ", Quantity: " + totalQuantityIssued + ", Date: " + dateCreated);
+                //System.out.println("Product: " + productName + ", Quantity: " + totalQuantityIssued + ", Date: " + dateCreated);
                 // Insert data using JdbcTemplate
                 jdbcTemplate.update(sql, productName, totalQuantityIssued, Timestamp.valueOf(dateCreated.atStartOfDay()));
             }

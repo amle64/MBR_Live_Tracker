@@ -4,6 +4,7 @@ import com.techelevator.dao.JdbcMbrDao;
 import com.techelevator.dao.MbrDao;
 import com.techelevator.exception.DaoException;
 import com.techelevator.model.Mbr;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,6 +19,9 @@ import java.io.IOException;
 @RequestMapping("/mbrs")
 public class MbrController {
     private final MbrDao mbrDao;
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
 
     public MbrController(JdbcTemplate jdbcTemplate){
         this.mbrDao = new JdbcMbrDao(jdbcTemplate);
@@ -42,15 +46,18 @@ public class MbrController {
     //POST endpoint to upload an Excel file and create MBRs
     @RequestMapping(path="/upload", method= RequestMethod.POST)
     public ResponseEntity<String> uploadMbrsFile(@RequestPart("file") MultipartFile file){
-        //Step 1: Save the uploaded file to a temporary location
-        String filePath = "temp/" +file.getOriginalFilename();
-        File tempFile = new File(filePath);
+        File directory = new File(uploadDir);
+        if (!directory.exists()) {
+            directory.mkdirs();  // Create directories if they don't exist
+        }
+
+        File tempFile = new File(uploadDir + File.separator + file.getOriginalFilename());
 
         try{
             file.transferTo(tempFile);
 
             //Step 2: Pass the file path to the DAO to process
-            mbrDao.createMbrs(filePath);
+            mbrDao.createMbrs(tempFile.getAbsolutePath());
 
             //Step 3: Return a success response
             return ResponseEntity.ok("MBR data uploaded and processed successfully");
@@ -63,5 +70,9 @@ public class MbrController {
         }
 
     }
+
+//    //PUT endpoint to update MBR
+//    @RequestMapping(path="/{mbrId}", method=RequestMethod.PUT)
+//    public void updateMbr(@PathVariable int mbrId, )
 
 }
