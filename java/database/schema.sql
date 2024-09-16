@@ -41,11 +41,11 @@ CREATE TABLE mbr (
     mbr_id INT NOT NULL DEFAULT nextval('seq_mbr_id'),
     product_name VARCHAR(50),
     total_quantity_issued INT NOT NULL,
-    total_quantity_made INT NOT NULL,
+    total_quantity_made INT NULL,
     review_status INT NOT NULL,
     date_created DATE NOT NULL,
-    date_time_started TIMESTAMP NOT NULL,
-    date_time_finished TIMESTAMP NOT NULL,
+    date_time_started TIMESTAMP NULL,
+    date_time_finished TIMESTAMP NULL,
     CONSTRAINT pk_mbr_id PRIMARY KEY (mbr_id),
     CONSTRAINT fk_review_status FOREIGN KEY (review_status) REFERENCES mbr_reviews (review_status)
 );
