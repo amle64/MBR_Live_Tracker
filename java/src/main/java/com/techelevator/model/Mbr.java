@@ -11,19 +11,22 @@ public class Mbr {
     private int totalQuantityMade;
     private int reviewStatus;
     private LocalDate dateCreated;
-    private LocalDateTime dateTimeRan;
+    private LocalDateTime dateTimeStarted;
+    private LocalDateTime dateTimeFinished;
 
     public Mbr(){}
 
     public Mbr(int mbrId, String productName, int totalQuantityIssued, int totalQuantityMade,
-               int reviewStatus, LocalDate dateCreated, LocalDateTime dateTimeRan){
+               int reviewStatus, LocalDate dateCreated, LocalDateTime dateTimeStarted, LocalDateTime dateTimeFinished){
         this.mbrId = mbrId;
         this.productName = productName;
         this.totalQuantityIssued = totalQuantityIssued;
         this.totalQuantityMade = totalQuantityMade;
         this.reviewStatus = reviewStatus;
         this.dateCreated = dateCreated;
-        this.dateTimeRan = dateTimeRan;
+        this.dateTimeStarted = dateTimeStarted;
+        this.dateTimeFinished = dateTimeFinished;
+
     }
 
 
@@ -75,11 +78,19 @@ public class Mbr {
         this.dateCreated = dateCreated;
     }
 
-    public LocalDateTime getDateTimeRan() {
-        return dateTimeRan;
+    public LocalDateTime getDateTimeStarted() {
+        return dateTimeStarted;
     }
 
-    public void setDateTimeRan(LocalDateTime dateTimeRan) {
-        this.dateTimeRan = dateTimeRan;
+    public void setDateTimeStarted(LocalDateTime dateTimeStarted) {
+        this.dateTimeStarted = dateTimeStarted;
+    }
+
+    public LocalDateTime getDateTimeFinished() {
+        return dateTimeFinished;
+    }
+
+    public void setDateTimeFinished(LocalDateTime dateTimeFinished) {
+        this.dateTimeFinished = dateTimeFinished;
     }
 }

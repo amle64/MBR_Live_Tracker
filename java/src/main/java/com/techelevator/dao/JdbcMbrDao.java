@@ -96,13 +96,14 @@ public class JdbcMbrDao implements MbrDao {
     @Override
     public boolean updateMbr(Mbr mbr){
         String sql = "UPDATE mbr "+
-                "SET product_name = ?, total_quantity_issued = ?, date_created = ? "+
+                "SET product_name = ?, total_quantity_issued = ?, total_quantity_made = ?, date_created = ? "+
                 "WHERE mbr_id = ?;";
 
         try{
             int rowsAffected = jdbcTemplate.update(sql,
                     mbr.getProductName(),
                     mbr.getTotalQuantityIssued(),
+                    mbr.getTotalQuantityMade(),
                     mbr.getDateCreated(),
                     mbr.getMbrId()
             );

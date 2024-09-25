@@ -2,6 +2,13 @@ BEGIN TRANSACTION;
 
 INSERT INTO users (username,password_hash,role) VALUES ('user','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_USER');
 INSERT INTO users (username,password_hash,role) VALUES ('admin','$2a$08$UkVvwpULis18S19S5pZFn.YHPZt3oaqHZnDwqbCW9pft6uFtkXKDC','ROLE_ADMIN');
+INSERT INTO users (username,password_hash,role) VALUES ('ale100','$2a$10$SrB5LYkHxNv5DLINsubPU.WN0i6z0ZyhwvuHuSvuE2M/gxJFJUMiK','ROLE_USER');
+
+INSERT INTO departments (department_id,department_name)
+VALUES (1,'Production'),
+       (2,'QA'),
+       (3,'Scheduling/Planning');
+
 
 INSERT INTO mbr_reviews (review_status, review_description)
 VALUES  (1, 'Pending'),

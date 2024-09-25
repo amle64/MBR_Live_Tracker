@@ -1,6 +1,6 @@
 package com.techelevator.model;
 
-public class userDetails {
+public class UserDetails {
 
 //    user_id INT NOT NULL,
 //    email_address VARCHAR(50),
@@ -11,8 +11,8 @@ public class userDetails {
     private boolean isSupervisor;
     private int departmentId;
 
-    public userDetails (){}
-    public userDetails (int userId, String emailAddress, boolean isSupervisor, int departmentId){
+    public UserDetails(){}
+    public UserDetails(int userId, String emailAddress, boolean isSupervisor, int departmentId){
         this.userId = userId;
         this.emailAddress = emailAddress;
         this.isSupervisor = isSupervisor;

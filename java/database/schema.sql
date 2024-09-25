@@ -1,9 +1,11 @@
 BEGIN TRANSACTION;
 
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS departments CASCADE;
 DROP TABLE IF EXISTS user_details CASCADE;
 DROP TABLE IF EXISTS mbr_reviews CASCADE;
 DROP TABLE IF EXISTS mbr CASCADE;
+
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -19,6 +21,14 @@ CREATE SEQUENCE seq_mbr_id
     START WITH 1000
     NO MAXVALUE;
 
+--Department Table
+CREATE TABLE departments (
+    department_id INT NOT NULL,
+    department_name VARCHAR(50),
+    CONSTRAINT PK_department_id PRIMARY KEY (department_id)
+
+);
+
 -- User Details Table
 CREATE TABLE user_details (
     user_id INT NOT NULL,
@@ -26,7 +36,8 @@ CREATE TABLE user_details (
     is_supervisor BOOLEAN NOT NULL,
     department_id int NOT NULL,
     CONSTRAINT pk_user_details PRIMARY KEY (user_id),
-    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id)
+    CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (user_id),
+    CONSTRAINT fk_department_id FOREIGN KEY (department_id) REFERENCES departments (department_id)
 );
 
 -- MBR Reviews Table (Create this before mbr table)
@@ -49,4 +60,6 @@ CREATE TABLE mbr (
     CONSTRAINT pk_mbr_id PRIMARY KEY (mbr_id),
     CONSTRAINT fk_review_status FOREIGN KEY (review_status) REFERENCES mbr_reviews (review_status)
 );
+
+
 COMMIT TRANSACTION;

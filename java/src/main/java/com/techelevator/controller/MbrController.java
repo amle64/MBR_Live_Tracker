@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,6 +18,8 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/mbrs")
+@PreAuthorize("isAuthenticated()")
+@CrossOrigin
 public class MbrController {
     private final MbrDao mbrDao;
 
@@ -26,7 +29,9 @@ public class MbrController {
     public MbrController(JdbcTemplate jdbcTemplate){
         this.mbrDao = new JdbcMbrDao(jdbcTemplate);
     }
+
     @RequestMapping(path="/{mbrId}", method = RequestMethod.GET)
+    @PreAuthorize("permitAll")
     public Mbr getMbr(@PathVariable int mbrId){
         Mbr mbr;
         try{
@@ -71,8 +76,18 @@ public class MbrController {
 
     }
 
-//    //PUT endpoint to update MBR
-//    @RequestMapping(path="/{mbrId}", method=RequestMethod.PUT)
-//    public void updateMbr(@PathVariable int mbrId, )
+    //PUT endpoint to update MBR
+    @RequestMapping(method=RequestMethod.PUT)
+    public void updateMbr(@RequestBody Mbr mbr){
+        try{
+            if (!mbrDao.updateMbr(mbr)) throw new ResponseStatusException(
+                    HttpStatus.INTERNAL_SERVER_ERROR, "Unable to update mbr!"
+            );
+        }catch(DaoException e){
+            throw new ResponseStatusException(
+                    HttpStatus.REQUEST_TIMEOUT, e.getMessage()
+            );
+        }
+    }
 
 }
