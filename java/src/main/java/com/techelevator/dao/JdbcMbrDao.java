@@ -7,12 +7,15 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -86,8 +89,18 @@ public class JdbcMbrDao implements MbrDao {
                 jdbcTemplate.update(sql, productName, totalQuantityIssued, Timestamp.valueOf(dateCreated.atStartOfDay()));
             }
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (DaoException e) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,e.getMessage()
+            );
+        } catch (FileNotFoundException ex){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, ex.getMessage()
+            );
+        } catch (IOException e){
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, e.getMessage()
+            );
         }
 
         return null;
